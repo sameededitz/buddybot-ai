@@ -1,7 +1,6 @@
 <?php
 
 use App\Http\Controllers\AdminController;
-use App\Http\Controllers\ApiKeyController;
 use App\Http\Controllers\OptionController;
 use App\Http\Controllers\PlanController;
 use App\Http\Controllers\UserFeedbackController;
@@ -12,11 +11,6 @@ use Illuminate\Support\Facades\Route;
 
 Route::group(['prefix' => 'admin', 'middleware' => ['auth', 'verified', 'verifyRole:admin']], function () {
     Route::get('/', [AdminController::class, 'dashboard'])->name('admin-home');
-
-    Route::get('/keys', [ApiKeyController::class, 'index'])->name('all-keys');
-    Route::post('/key/add', [ApiKeyController::class, 'store'])->name('store-key');
-    Route::put('/key/activate/{id}', [ApiKeyController::class, 'activateKey'])->name('activate-key');
-    Route::delete('/key/{key}/delete', [ApiKeyController::class, 'destroy'])->name('delete-key');
 
     Route::get('/plans', [PlanController::class, 'index'])->name('all-plans');
     Route::get('/plan/add', PlanAdd::class)->name('add-plan');
