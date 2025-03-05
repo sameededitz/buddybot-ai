@@ -14,12 +14,8 @@
         style="max-width: 600px; margin: 0 auto; background-color: #ffffff; border-radius: 8px; box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); padding: 20px;">
         <!-- Navbar -->
         <div class="navbar"
-            style="background-color: #007bff; padding: 10px 20px; border-radius: 8px 8px 0 0; display: flex; justify-content: space-between; align-items: center;">
+            style="background-color: #007bff; padding: 10px 20px; border-radius: 8px 8px 0 0; display: flex; justify-content: center; align-items: center;">
             <img src="{{ config('app.logo') ?? '#' }}" alt="Logo" style="width: 80px;">
-            <div>
-                <a href="#" style="color: white; text-decoration: none; margin: 0 10px;">Home</a>
-                <a href="#" style="color: white; text-decoration: none; margin: 0 10px;">Help</a>
-            </div>
         </div>
 
         <div class="header" style="background-color: #007bff; color: white; text-align: center; padding: 20px 0;">

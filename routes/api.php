@@ -19,9 +19,9 @@ Route::middleware('guest')->group(function () {
 
     Route::post('/auth/apple', [SocialController::class, 'apple'])->name('api.auth.apple');
 
-    Route::post('/email/resend-verification', [VerifyController::class, 'resend'])->name('api.verify.resend');
+    Route::post('/email/resend-verification', [VerifyController::class, 'resend'])->name('api.verify.resend')->middleware('throttle:6,1');
 
-    Route::post('/reset-password', [VerifyController::class, 'sendResetLink'])->name('api.reset.password');
+    Route::post('/reset-password', [VerifyController::class, 'sendResetLink'])->name('api.reset.password')->middleware('throttle:6,1');
 });
 
 Route::middleware('auth:sanctum')->group(function () {
