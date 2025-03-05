@@ -26,6 +26,7 @@ class User extends Authenticatable implements MustVerifyEmail, HasMedia
         'google_id',
         'apple_id',
         'avatar',
+        'chatbot_name',
     ];
 
     protected $hidden = [
@@ -42,11 +43,16 @@ class User extends Authenticatable implements MustVerifyEmail, HasMedia
         ];
     }
 
-    protected $appends = ['avatar_url']; // Automatically append avatar URL
+    protected $appends = ['avatar_url', 'chatbot_avatar_url'];
 
     public function registerMediaCollections(): void
     {
         $this->addMediaCollection('avatar')
+            ->useDisk('media')
+            ->singleFile()
+            ->acceptsMimeTypes(['image/jpeg', 'image/png', 'image/jpg']);
+
+        $this->addMediaCollection('chatbot')
             ->useDisk('media')
             ->singleFile()
             ->acceptsMimeTypes(['image/jpeg', 'image/png', 'image/jpg']);
@@ -59,6 +65,12 @@ class User extends Authenticatable implements MustVerifyEmail, HasMedia
         }
 
         $media = $this->getFirstMedia('avatar');
+        return $media ? $media->getUrl() : null;
+    }
+
+    public function getChatbotAvatarUrlAttribute()
+    {
+        $media = $this->getFirstMedia('chatbot');
         return $media ? $media->getUrl() : null;
     }
 
@@ -85,10 +97,5 @@ class User extends Authenticatable implements MustVerifyEmail, HasMedia
     public function chats()
     {
         return $this->hasMany(Chat::class);
-    }
-
-    public function familyMembers()
-    {
-        return $this->hasMany(FamilyMember::class);
     }
 }

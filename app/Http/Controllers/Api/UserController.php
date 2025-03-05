@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
+use App\Http\Resources\UserResource;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
@@ -16,7 +17,7 @@ class UserController extends Controller
         return response()->json([
             'status' => true,
             'message' => 'User fetched successfully!',
-            'user' => $user,
+            'user' => new UserResource($user),
         ], 200);
     }
 
@@ -52,7 +53,41 @@ class UserController extends Controller
         return response()->json([
             'status' => true,
             'message' => 'User updated successfully!',
-            'user' => $user,
+            'user' => new UserResource($user),
+        ], 200);
+    }
+
+    public function updateChatbot(Request $request)
+    {
+        $validator = Validator::make($request->all(), [
+            'name' => 'required|string|max:255|min:3',
+            'avatar' => 'nullable|image|mimes:jpeg,png,jpg|max:20420',
+        ]);
+
+        if ($validator->fails()) {
+            return response()->json([
+                'status' => false,
+                'message' => $validator->errors()->all()
+            ], 400);
+        }
+
+        /** @var \App\Models\User $user **/
+        $user = Auth::user();
+        $user->update([
+            'chatbot_name' => $request->name,
+        ]);
+
+        if ($request->hasFile('avatar')) {
+            $user->clearMediaCollection('chatbot');
+            $user->addMedia($request->file('avatar'))
+                ->usingFileName(time() . '_user_' . $user->id . '_chatbot_' . $user->chatbot_name . '.' . $request->file('avatar')->getClientOriginalExtension())
+                ->toMediaCollection('chatbot');
+        }
+
+        return response()->json([
+            'status' => true,
+            'message' => 'Chatbot updated successfully!',
+            'user' => new UserResource($user),
         ], 200);
     }
 }

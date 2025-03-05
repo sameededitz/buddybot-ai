@@ -29,6 +29,8 @@ Route::middleware('auth:sanctum')->group(function () {
 
     Route::put('/user/update', [UserController::class, 'update'])->name('api.user.update');
 
+    Route::put('/user/update/chatbot', [UserController::class, 'updateChatbot'])->name('api.user.update.chatbot');
+
     Route::post('/logout', [AuthController::class, 'logout'])->name('api.logout');
 
     Route::get('/purchase/active', [PurchaseController::class, 'active'])->name('api.plan.active');

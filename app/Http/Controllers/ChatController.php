@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Resources\ChatResource;
 use App\Models\Chat;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -14,7 +15,7 @@ class ChatController extends Controller
     {
         /** @var \App\Models\User $user **/
         $user = Auth::user();
-        $chats = $user->chats()->with('messages')->get();
+        $chats = $user->chats()->get();
 
         return response()->json([
             'status' => true,
@@ -30,7 +31,7 @@ class ChatController extends Controller
 
         return response()->json([
             'status' => true,
-            'chat' => $chat
+            'chat' => new ChatResource($chat)
         ]);
     }
 
@@ -56,7 +57,7 @@ class ChatController extends Controller
         return response()->json([
             'status' => true,
             'message' => 'Chat created successfully',
-            'chat' => $chat
+            'chat' => new ChatResource($chat)
         ]);
     }
 
@@ -93,8 +94,7 @@ class ChatController extends Controller
         return response()->json([
             'status' => true,
             'message' => 'Message saved successfully',
-            'chat' => $chat->load('messages'),
-            'messages' => $message
+            'chat' => new ChatResource($chat)
         ], 201);
     }
 
@@ -118,6 +118,6 @@ class ChatController extends Controller
         return response()->json([
             'status' => true,
             'message' => 'Chat deleted successfully'
-        ]);
+        ], 200);
     }
 }

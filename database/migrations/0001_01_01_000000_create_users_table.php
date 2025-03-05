@@ -23,6 +23,7 @@ return new class extends Migration
             $table->string('google_id')->nullable()->unique();
             $table->string('apple_id')->nullable()->unique();
             $table->string('avatar')->nullable();
+            $table->string('chatbot_name')->nullable();
             $table->rememberToken();
             $table->timestamps();
         });
