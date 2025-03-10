@@ -26,7 +26,7 @@ class UserController extends Controller
         $validator = Validator::make($request->all(), [
             'name' => 'required|string|max:255|min:3',
             'email' => 'required|email|unique:users,email,' . Auth::id(),
-            'avatar' => 'required|image|mimes:jpeg,png,jpg|max:20420',
+            'avatar' => 'nullable|image|mimes:jpeg,png,jpg|max:20420',
         ]);
 
         if ($validator->fails()) {
