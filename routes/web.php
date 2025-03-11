@@ -30,6 +30,10 @@ Route::get('/optimize', function () {
     Artisan::call('optimize');
     return 'Cache Cleared';
 });
+Route::get('/storage-link', function () {
+    Artisan::call('storage:link');
+    return 'Cache Cleared';
+});
 
 Route::get('email/verify/view/{id}/{hash}', [VerifyController::class, 'viewEmail'])->name('email.verification.view');
 Route::get('password/reset/view/{email}/{token}', [VerifyController::class, 'viewInBrowser'])->name('password.reset.view');
